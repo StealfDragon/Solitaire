@@ -1,0 +1,6 @@
+Todo:
+  ☐ Move Card @started(25-04-11 14:49)
+    ☐ Learn where cursor detection is
+    ☐ When cursor over card,
+      ☐ If cursor is down, set card center to cursor position
+
