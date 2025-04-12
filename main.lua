@@ -28,6 +28,8 @@ function love.update()
     for _, card in ipairs(cardTable, card) do
         card:update()
     end
+
+    -- grabber.currCard = grabber.currCard + 1
 end
 
 function love.draw()

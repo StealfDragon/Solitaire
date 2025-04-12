@@ -48,7 +48,6 @@ function GrabberClass:release()
 
     self.grabbed = false
     isMoving = false
-    grabber.currCard = 0
 
     self.grabPos = nil
 end

@@ -16,6 +16,9 @@ function CardClass:new(xPos, yPos, num)
     card.width = 50
     card.height = 70
 
+    card.flipped = false
+    card.redrawn = false
+
     card.position = Vector(xPos - card.width, yPos - card.height)
     card.num = num
     card.size = Vector(card.width, card.height)
@@ -31,8 +34,15 @@ function CardClass:update()
         self.position = grabber.currMousePos - (self.size / 2)
         if not grabber.grabbed then
             self.state = CARD_STATE.MOUSE_OVER
+            grabber.currCard = 0
         end
     end
+
+    --[[
+    if self.flipped == true and self.redrawn == false then
+        
+    end
+    ]]
     
     --[[
     if grabber.grabbed then 
@@ -45,11 +55,16 @@ end
 function CardClass:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle("fill", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
+    
+    if not self.flipped then
+        love.graphics.setColor(1, 0, 0, 1)
+        love.graphics.rectangle("line", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
+    end
 
-    love.graphics.print(tostring(self.state), self.position.x + 20, self.position.y - 20)
-
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.print(tostring(self.num), self.position.x + (self.size.x / 2 - 5), self.position.y + (self.size.y / 2 - 5))
+    if self.flipped then
+        love.graphics.setColor(0, 0, 0, 1)
+        love.graphics.print(tostring(self.num), self.position.x + (self.size.x / 2 - 5), self.position.y + (self.size.y / 2 - 5))
+    end
 end
 
 function CardClass:checkMouseOver()
@@ -69,16 +84,20 @@ function CardClass:checkMouseOver()
 
     --self.state = isMouseOver and CARD_STATE.MOUSE_OVER or CARD_STATE.IDLE
 
-    if isMouseOver then
-        self.state = CARD_STATE.MOUSE_OVER 
+    if isMouseOver and grabber.currCard == 0 then
+        self.state = CARD_STATE.MOUSE_OVER
         if grabber.grabbed then
-            self.state = CARD_STATE.GRABBED
-            grabber.currCard = self.num
+            if not self.flipped then
+                self.flipped = true
+            else -- if card already flipped, then is moveable
+                self.state = CARD_STATE.GRABBED
+                grabber.currCard = self.num
+            end
         end
     end
     
     if not isMouseOver then
         self.state = CARD_STATE.IDLE
-        grabber.currCard = 0
+        --grabber.currCard = 0
     end
 end

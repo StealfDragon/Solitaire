@@ -1,6 +1,9 @@
 Todo:
-  ☐ Move Card @started(25-04-11 14:49)
+  ✔ Move Card @done(25-04-11 17:23)
     ☐ Learn where cursor detection is
     ☐ When cursor over card,
       ☐ If cursor is down, set card center to cursor position
+  ☐ Flip Cards
+    ☐ Start unflipped
+    ☐ On flip, display number and make moveable
 
