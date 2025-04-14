@@ -7,31 +7,31 @@ function TableTopClass:new()
     local metadata = {__index = TableTopClass} -- creates the table metadata
     setmetatable(tableTop, metadata) -- sets "metadata" as the metatable for the card table
 
+    local width = 50
+    local height = 70
+
     local function makeOutline(x, y, type)
-        return { pos = Vector(x, y), type = type }
+        return { pos = Vector(x - width, y - height), type = type }
     end
     outlinePositions = {
-        makeOutline(200, 200, "deck"),
-        makeOutline(275, 200, "depo"),
+        makeOutline(275, 250, "deck"),
+        makeOutline(350, 250, "depo"),
         
-        makeOutline(425, 200, "ace"),
-        makeOutline(500, 200, "ace"),
-        makeOutline(575, 200, "ace"),
-        makeOutline(650, 200, "ace"),
+        makeOutline(500, 250, "ace"),
+        makeOutline(575, 250, "ace"),
+        makeOutline(650, 250, "ace"),
+        makeOutline(725, 250, "ace"),
 
-        makeOutline(200, 300, "stack"),
-        makeOutline(275, 300, "stack"),
-        makeOutline(350, 300, "stack"),
-        makeOutline(425, 300, "stack"),
-        makeOutline(500, 300, "stack"),
-        makeOutline(575, 300, "stack"),
-        makeOutline(650, 300, "stack")
+        makeOutline(275, 350, "tableau"),
+        makeOutline(350, 350, "tableau"),
+        makeOutline(425, 350, "tableau"),
+        makeOutline(500, 350, "tableau"),
+        makeOutline(575, 350, "tableau"),
+        makeOutline(650, 350, "tableau"),
+        makeOutline(725, 350, "tableau"),
     }
 
     tableTop.outlines = {}
-
-    local width = 50
-    local height = 70
 
     for _, data in ipairs(outlinePositions) do
         table.insert(tableTop.outlines, {
@@ -70,5 +70,5 @@ function TableTopClass:draw()
             --love.graphics.print("A", outline.position.x + (outline.size.x / 2 - 5), outline.position.y + (outline.size.y / 2 - 5))
         end
     end
-
 end
+

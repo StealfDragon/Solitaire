@@ -7,6 +7,10 @@ Todo:
     ☐ Start unflipped
     ☐ On flip, display number and make moveable
   ☐ Figure out whether to completely change cardtable code, and use the tabletop class, or use the cardtable code with tabletop
+
+  ☐ Write card stack logic into tabletop, so that cards can be placed in stacks, and then the y value of the "outline" changes
+    ☐ Conside making a cardstack class
+
   ☐ Get card sprites
   ☐ Make card stacks
     ☐ Make card stacks moveable

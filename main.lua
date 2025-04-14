@@ -16,8 +16,8 @@ function love.load()
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
     -- inserts cards into table
-    table.insert(cardTable, CardClass:new(100, 100, 1))
-    table.insert(cardTable, CardClass:new(100, 200, 2))
+    table.insert(cardTable, CardClass:new(275, 350, 1))
+    table.insert(cardTable, CardClass:new(350, 350, 2))
 end
 
 function love.update()
@@ -25,11 +25,11 @@ function love.update()
     
     checkForMouseMoving() -- calls checkForMouseMoving function, which checks if the mouse is on top of any card
     
+    tableTop:update()
+
     for _, card in ipairs(cardTable, card) do -- calls update function for every card
         card:update()
     end
-
-    tableTop:update()
 
     -- grabber.currCard = grabber.currCard + 1 -- no clue
 end
