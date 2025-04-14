@@ -1,26 +1,28 @@
 require "vector"
 
-CardClass = {}
+CardClass = {} -- creates cardClass table, for which we make functions
 
-CARD_STATE = {
+CARD_STATE = { -- stores possiblecard states
     IDLE = 0,
     MOUSE_OVER = 1,
     GRABBED = 2
 }
 
 function CardClass:new(xPos, yPos, num)
-    local card = {}
-    local metadata = {__index = CardClass}
-    setmetatable(card, metadata)
+    local card = {} -- makes a card "class"
+    local metadata = {__index = CardClass} -- creates the table metadata
+    setmetatable(card, metadata) -- sets "metadata" as the metatable for the card table
+    -- Both lines combined make it so that if any key accessed in the card table doesn't exist,
+    -- it can be searched for in CardClass
 
-    card.width = 50
+    card.width = 50 -- sets card dimensions
     card.height = 70
 
-    card.flipped = false
+    card.flipped = false -- important card info
     card.redrawn = false
 
-    card.position = Vector(xPos - card.width, yPos - card.height)
-    card.num = num
+    card.position = Vector(xPos - card.width, yPos - card.height) -- makes a vector that stores card position
+    card.num = num -- sets card num, CHANGE LATER
     card.size = Vector(card.width, card.height)
     card.state = CARD_STATE.IDLE
 

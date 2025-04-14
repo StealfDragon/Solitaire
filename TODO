@@ -3,7 +3,16 @@ Todo:
     ☐ Learn where cursor detection is
     ☐ When cursor over card,
       ☐ If cursor is down, set card center to cursor position
-  ☐ Flip Cards
+  ✔ Flip Cards @done(25-04-11 17:45)
     ☐ Start unflipped
     ☐ On flip, display number and make moveable
+  ☐ Figure out whether to completely change cardtable code, and use the tabletop class, or use the cardtable code with tabletop
+  ☐ Get card sprites
+  ☐ Make card stacks
+    ☐ Make card stacks moveable
+      ☐ Moveable from any position
+  ☐ Assign valid positions for cards to be placed on
+  ☐ Deck
+    ☐ Draw cards from deck in 3s
+  ☐ Make sure top card of each stack starts face up
 
