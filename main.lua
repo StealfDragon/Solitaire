@@ -9,6 +9,7 @@ require "tabletop"
 
 function love.load()
     love.window.setMode(960, 640) -- Creates window and defines size
+    love.window.setTitle("Cassian Jones's Solitaire")
     love.graphics.setBackgroundColor(0.2, 0.60, 0.2, 1) -- Sets background color of the window
 
     grabber = GrabberClass:new() -- makes new grabber instance

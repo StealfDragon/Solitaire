@@ -1,4 +1,5 @@
 require "vector"
+require "cardstack"
 
 TableTopClass = {}
 
@@ -71,4 +72,3 @@ function TableTopClass:draw()
         end
     end
 end
-
