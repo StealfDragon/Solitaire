@@ -11,8 +11,8 @@ function DeckClass:new()
 
     deck.empty = true
 
-    deck.position = Vector(xPos - card.width, yPos - card.height)
-
+    deck.position = Vector(xPos - deck.width, yPos - deck.height)
+    deck.size = Vector(deck.width, deck.height)
 end
 
 function DeckClass:update()

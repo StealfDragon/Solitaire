@@ -10,10 +10,11 @@ function CardStackClass:new()
     local height = 70
 
     cardStack.filled = true
-    cardStack.temp = false
+    cardStack.numCards = 0
+    cardStack.removeable = false
 
-    cardStack.position = Vector(xPos - card.width, yPos - card.height)
-
+    cardStack.position = Vector(xPos - cardStack.width, yPos - cardStack.height)
+    cardStack.size = Vector(cardStack.width, cardStack.height)
 end
 
 function CardStackClass:update()
@@ -24,6 +25,18 @@ function CardStackClass:draw()
 
 end
 
-function CardStackClass:add()
+function CardStackClass:setTemp()
+
+end
+
+function CardStackClass:addCard(card)
+
+end
+
+function CardStackClass:removeCard(card)
+
+end
+
+function CardStackClass:kill()
 
 end
