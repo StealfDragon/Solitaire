@@ -26,7 +26,6 @@ function CardClass:new(xPos, yPos, num)
     card.size = Vector(card.width, card.height)
     card.state = CARD_STATE.IDLE
 
-
     return card
 end
 
