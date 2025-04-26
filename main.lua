@@ -17,11 +17,13 @@ function love.load()
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
     -- inserts cards into table
-    table.insert(cardTable, CardClass:new(275, 350, 1))
-    table.insert(cardTable, CardClass:new(350, 350, 2))
+    -- table.insert(cardTable, CardClass:new(275, 350, 1))
+    -- table.insert(cardTable, CardClass:new(350, 350, 2))
+    instantiateCards()
 end
 
 function love.update()
+    require("lovebird").update()
     grabber:update() -- calls the grabber update function
     
     checkForMouseMoving() -- calls checkForMouseMoving function, which checks if the mouse is on top of any card
@@ -45,7 +47,7 @@ function love.draw()
     -- ^ displays the mouse x and y coordinates
     love.graphics.print("Current Card:" .. tostring(grabber.currCard), 110, 0)
     -- ^ prints number of the card which is being grabbed
-
+    
     for _, card in ipairs(cardTable, card) do -- draws every card in the cardTable table
         card:draw()
     end
@@ -56,13 +58,44 @@ function checkForMouseMoving()
         return
     end
 
-    for _, card in ipairs(cardTable) do -- checks if the mouse is over any card in cardTable
-        card:checkMouseOver(grabber)
+    --[[ for _, card in ipairs(cardTable) do -- checks if the mouse is over any card in cardTable
+        card:checkMouseOver(grabber) ]]
+    for i = #cardTable, 1, -1 do
+        local card = cardTable[i]
+        local cardGrabbed = card:checkMouseOver(grabber)
+        if cardGrabbed then 
+            table.remove(cardTable, i)
+            table.insert(cardTable, card)
+            break
+        end
         
         --[[
         if grabber:grab() then
             card:update()
         end
         ]]
+    end
+end
+
+function instantiateCards()
+    suit = nil
+    num = nil
+    for i = 1, 4 do
+        if i == 1 then
+            suit = "club"
+        end
+        if i == 2 then
+            suit = "heart"
+        end
+        if i == 3 then
+            suit = "spade"
+        end
+        if i == 4 then
+            suit = "diamond"
+        end
+        for j = 1, 13 do
+            num = j
+            table.insert(cardTable, CardClass:new(275, 250, suit, num))
+        end
     end
 end

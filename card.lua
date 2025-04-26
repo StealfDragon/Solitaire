@@ -8,7 +8,7 @@ CARD_STATE = { -- stores possiblecard states
     GRABBED = 2
 }
 
-function CardClass:new(xPos, yPos, num)
+function CardClass:new(xPos, yPos, suit, num)
     local card = {} -- makes a card "class"
     local metadata = {__index = CardClass} -- creates the table metadata
     setmetatable(card, metadata) -- sets "metadata" as the metatable for the card table
@@ -22,10 +22,10 @@ function CardClass:new(xPos, yPos, num)
     card.redrawn = false
 
     card.position = Vector(xPos - card.width, yPos - card.height) -- makes a vector that stores card position
+    card.suit = suit
     card.num = num -- sets card num, CHANGE LATER
     card.size = Vector(card.width, card.height)
     card.state = CARD_STATE.IDLE
-
     return card
 end
 
@@ -64,7 +64,8 @@ function CardClass:draw()
 
     if self.flipped then
         love.graphics.setColor(0, 0, 0, 1)
-        love.graphics.print(tostring(self.num), self.position.x + (self.size.x / 2 - 5), self.position.y + (self.size.y / 2 - 5))
+        s = string.sub(self.suit, 1, 1) .. tostring(self.num)
+        love.graphics.print(s, self.position.x + (self.size.x / 2 - 5), self.position.y + (self.size.y / 2 - 5))
     end
 end
 
@@ -93,6 +94,7 @@ function CardClass:checkMouseOver()
             else -- if card already flipped, then is moveable
                 self.state = CARD_STATE.GRABBED
                 grabber.currCard = self.num
+                return true
             end
         end
     end
@@ -101,4 +103,6 @@ function CardClass:checkMouseOver()
         self.state = CARD_STATE.IDLE
         --grabber.currCard = 0
     end
+
+    return false
 end
