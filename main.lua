@@ -6,6 +6,7 @@
 require "card"
 require "grabber"
 require "tabletop"
+local cardFlippedThisClick = false
 
 function love.load()
     love.window.setMode(960, 640) -- Creates window and defines size
@@ -61,6 +62,16 @@ function checkForMouseMoving()
     --[[ for _, card in ipairs(cardTable) do -- checks if the mouse is over any card in cardTable
         card:checkMouseOver(grabber) ]]
     for i = #cardTable, 1, -1 do
+        --[[ local card
+        local flipped
+
+        if flipped and not cardFlippedThisClick then
+            table.remove(cardTable, i)
+            table.insert(cardTable, card)
+            cardFlippedThisClick = true
+            break
+        end ]]
+        
         local card = cardTable[i]
         local cardGrabbed = card:checkMouseOver(grabber)
         if cardGrabbed then 

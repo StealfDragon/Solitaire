@@ -6,8 +6,15 @@ Todo:
   ✔ Flip Cards @done(25-04-11 17:45)
     ☐ Start unflipped
     ☐ On flip, display number and make moveable
-  ☐ Figure out whether to completely change cardtable code, and use the tabletop class, or use the cardtable code with tabletop
+  
+  ☐ Fix all cards flipping when clicked @started(25-04-26 19:46)
+  ☐ Set up card stacks with flipped top cards
+    ☐ If disabling card placement except for on these positions is easy, do that.
+    ☐ If moving the card stacks is easy, do that.
+  ☐ Set up deck and drawing 3 cards
+  ☐ Finish README
 
+  ☐ Figure out whether to completely change cardtable code, and use the tabletop class, or use the cardtable code with tabletop 
   ☐ Write card stack logic into tabletop, so that cards can be placed in stacks, and then the y value of the "outline" changes
     ☐ Conside making a cardstack class
 
@@ -19,4 +26,5 @@ Todo:
   ☐ Deck
     ☐ Draw cards from deck in 3s
   ☐ Make sure top card of each stack starts face up
+  ☐ Make outline placement dynamic
 

@@ -18,7 +18,7 @@ function CardClass:new(xPos, yPos, suit, num)
     card.width = 50 -- sets card dimensions
     card.height = 70
 
-    card.flipped = false -- important card info
+    card.flipped = true -- important card info
     card.redrawn = false
 
     card.position = Vector(xPos - card.width, yPos - card.height) -- makes a vector that stores card position
@@ -90,7 +90,7 @@ function CardClass:checkMouseOver()
         self.state = CARD_STATE.MOUSE_OVER
         if grabber.grabbed then
             if not self.flipped then
-                self.flipped = true
+                -- self.flipped = true
             else -- if card already flipped, then is moveable
                 self.state = CARD_STATE.GRABBED
                 grabber.currCard = self.num
