@@ -2,7 +2,7 @@ require "vector"
 
 CardClass = {} -- creates cardClass table, for which we make functions
 
-CARD_STATE = { -- stores possiblecard states
+CARD_STATE = { -- stores possible card states
     IDLE = 0,
     MOUSE_OVER = 1,
     GRABBED = 2

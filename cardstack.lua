@@ -1,20 +1,23 @@
+require "vector"
 require "card"
 
 CardStackClass = {}
 
-function CardStackClass:new()
+function CardStackClass:new(xPos, yPos, temp)
     local cardStack = {}
     local metadata = {__index = CardStackClass} -- creates the table metadata
     setmetatable(cardStack, metadata) -- sets "metadata" as the metatable for the card table
-    local width = 50
-    local height = 70
-
-    cardStack.filled = true
-    cardStack.numCards = 0
-    cardStack.removeable = false
+    cardStack.width = 50
+    cardStack.height = 70
 
     cardStack.position = Vector(xPos - cardStack.width, yPos - cardStack.height)
     cardStack.size = Vector(cardStack.width, cardStack.height)
+
+    cardStack.temp = temp
+    cardStack.filled = false
+    cardStack.numCards = 0
+    
+    return cardStack
 end
 
 function CardStackClass:update()

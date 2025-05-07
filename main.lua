@@ -13,6 +13,9 @@ function love.load()
     love.window.setTitle("Cassian Jones's Solitaire")
     love.graphics.setBackgroundColor(0.2, 0.60, 0.2, 1) -- Sets background color of the window
 
+    width = 50
+    height = 70
+
     grabber = GrabberClass:new() -- makes new grabber instance
     tableTop = TableTopClass:new()
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
