@@ -3,7 +3,7 @@ require "cardstack"
 
 TableTopClass = {}
 
-function TableTopClass:new()
+function TableTopClass:new(stackTable)
     local tableTop = {}
     local metadata = {__index = TableTopClass} -- creates the table metadata
     setmetatable(tableTop, metadata) -- sets "metadata" as the metatable for the card table
@@ -11,12 +11,8 @@ function TableTopClass:new()
     local width = 50
     local height = 70
 
-    stackTable = {}
-
     local function makeOutline(x, y, type)
-        if type == "ace" then
-            table.insert(stackTable, CardStackClass:new(x, y, false))
-        elseif type == "tableau" then
+        if type == "ace" or type == "tableau" then
             table.insert(stackTable, CardStackClass:new(x, y, false))
         end
         return { pos = Vector(x - width, y - height), type = type }

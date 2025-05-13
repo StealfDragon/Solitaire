@@ -65,7 +65,7 @@ function CardClass:draw()
     if self.flipped then
         love.graphics.setColor(0, 0, 0, 1)
         s = string.sub(self.suit, 1, 1) .. tostring(self.num)
-        love.graphics.print(s, self.position.x + (self.size.x / 2 - 5), self.position.y + (self.size.y / 2 - 5))
+        love.graphics.print(s, self.position.x + (self.size.x / 2 - 2), self.position.y --[[+ (self.size.y / 2 - 5)]])
     end
 end
 
@@ -105,4 +105,8 @@ function CardClass:checkMouseOver()
     end
 
     return false
+end
+
+function CardClass:setPos(newX, newY)
+    self.position = Vector(newX - self.width, newY - self.height)
 end

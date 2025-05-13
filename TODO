@@ -7,7 +7,7 @@ Todo:
     ☐ Start unflipped
     ☐ On flip, display number and make moveable
   
-  ☐ Fix all cards flipping when clicked @started(25-04-26 19:46)
+  ☐ Fix all cards flipping when clicked
   ☐ Set up card stacks with flipped top cards
     ☐ If disabling card placement except for on these positions is easy, do that.
     ☐ If moving the card stacks is easy, do that.

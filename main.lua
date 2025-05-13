@@ -17,7 +17,8 @@ function love.load()
     height = 70
 
     grabber = GrabberClass:new() -- makes new grabber instance
-    tableTop = TableTopClass:new()
+    stackTable = {}
+    tableTop = TableTopClass:new(stackTable)
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
     -- inserts cards into table
@@ -55,6 +56,10 @@ function love.draw()
     for _, card in ipairs(cardTable, card) do -- draws every card in the cardTable table
         card:draw()
     end
+
+    for _, stack in ipairs(stackTable, stack) do
+        stack:draw()
+    end
 end
 
 function checkForMouseMoving()
@@ -62,19 +67,7 @@ function checkForMouseMoving()
         return
     end
 
-    --[[ for _, card in ipairs(cardTable) do -- checks if the mouse is over any card in cardTable
-        card:checkMouseOver(grabber) ]]
-    for i = #cardTable, 1, -1 do
-        --[[ local card
-        local flipped
-
-        if flipped and not cardFlippedThisClick then
-            table.remove(cardTable, i)
-            table.insert(cardTable, card)
-            cardFlippedThisClick = true
-            break
-        end ]]
-        
+    for i = #cardTable, 1, -1 do    
         local card = cardTable[i]
         local cardGrabbed = card:checkMouseOver(grabber)
         if cardGrabbed then 
@@ -82,12 +75,6 @@ function checkForMouseMoving()
             table.insert(cardTable, card)
             break
         end
-        
-        --[[
-        if grabber:grab() then
-            card:update()
-        end
-        ]]
     end
 end
 
@@ -112,4 +99,8 @@ function instantiateCards()
             table.insert(cardTable, CardClass:new(275, 250, suit, num))
         end
     end
+    stackTable[5]:addCard(cardTable[52])
+    table.remove(cardTable, 52)
+    stackTable[5]:addCard(cardTable[51])
+    table.remove(cardTable, 51)
 end
