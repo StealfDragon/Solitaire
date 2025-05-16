@@ -12,6 +12,8 @@ function CardStackClass:new(xPos, yPos, temp)
 
     cardStack.position = Vector(xPos - cardStack.width, yPos - cardStack.height)
     cardStack.size = Vector(cardStack.width, cardStack.height)
+    cardStack.yOffset = 20
+    cardStack.totalYOffset = 0
 
     cardStack.temp = temp
     cardStack.filled = false
@@ -28,11 +30,10 @@ function CardStackClass:update()
 end
 
 function CardStackClass:draw()
-    local yOffset = 20
-
     for i, card in ipairs(self.cards) do
         card.position.x = self.position.x
-        card.position.y = self.position.y + ((i - 1) * yOffset)
+        self.totalYOffset = (i - 1) * self.yOffset
+        card.position.y = self.position.y + self.totalYOffset
         card:draw()
     end
 end
@@ -41,24 +42,25 @@ function CardStackClass:addCard(card)
     table.insert(self.cards, card)
     self.numCards = self.numCards + 1
     self.filled = true
-    self.position.y = self.position.y
+    --self.position.y = self.position.y
 end
 
 function CardStackClass:removeCard(card)
     for i, c in ipairs(self.cards) do
         if c == card then
             table.remove(self.cards, i)
+            self.totalYOffset = self.totalYOffset - self.yOffset
             break
         end
     end
     self.numCards = self.numCards - 1
-    if numCards == 0 then
+    if numCards <= 0 then
         self.filled = false
         if self.temp then
             self.kill()
         end
     end
-    self.position.y = self.position.y - 15
+    --self.position.y = self.position.y
 end
 
 function CardStackClass:kill()
@@ -74,6 +76,11 @@ function CardStackClass:kill()
     end
 end
 
-function CardStackClass:checkMouseOver()
-    
+function CardStackClass:checkMouseOver(x, y)
+    return (
+        x > self.position.x and
+        x < self.position.x + self.size.x and
+        y > self.position.y + self.totalYOffset and
+        y < self.position.y + self.totalYOffset + self.size.y
+    )
 end

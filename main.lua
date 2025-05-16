@@ -63,7 +63,7 @@ function love.draw()
 end
 
 function checkForMouseMoving()
-    if grabber.currMousePos == nil then -- no clue
+    if grabber.currMousePos == nil then
         return
     end
 

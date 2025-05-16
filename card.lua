@@ -74,8 +74,6 @@ function CardClass:checkMouseOver()
         return
     end
 
-    -- self.grabbedBy = grabber
-
     local mousePos = grabber.currMousePos
     local isMouseOver = 
         mousePos.x > self.position.x and
@@ -83,8 +81,6 @@ function CardClass:checkMouseOver()
         and
         mousePos.y > self.position.y and
         mousePos.y < self.position.y + self.size.y
-
-    --self.state = isMouseOver and CARD_STATE.MOUSE_OVER or CARD_STATE.IDLE
 
     if isMouseOver and grabber.currCard == 0 then
         self.state = CARD_STATE.MOUSE_OVER
