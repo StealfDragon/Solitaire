@@ -6,6 +6,8 @@
 require "card"
 require "grabber"
 require "tabletop"
+require "deck"
+require "acestack"
 local cardFlippedThisClick = false
 
 function love.load()
@@ -19,6 +21,8 @@ function love.load()
     grabber = GrabberClass:new() -- makes new grabber instance
     stackTable = {}
     tableTop = TableTopClass:new(stackTable)
+    deck = DeckClass:new(275, 250)
+    aceStacks = {}
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
     -- inserts cards into table
@@ -44,6 +48,7 @@ end
 
 function love.draw()
     tableTop:draw()
+    deck:draw()
 
     local regFont = love.graphics.newFont(12)
     love.graphics.setFont(regFont)
@@ -70,6 +75,18 @@ function love.draw()
     elseif grabber.currCard ~= 0 then
         grabber.currCard.position = grabber.currMousePos - (grabber.currCard.size / 2)
         grabber.currCard:draw()
+    end
+end
+
+function love.mousepressed(x, y, button)
+    if button == 1 then
+        if deck:checkClick(x, y) then
+            local drawnCard = deck:drawCard()
+            if drawnCard then
+                drawnCard:setPos(350, 250) -- where drawn cards show
+                table.insert(cardTable, drawnCard)
+            end
+        end
     end
 end
 
@@ -163,13 +180,14 @@ function instantiateCards()
         end
         for j = 1, 13 do
             num = j
-            table.insert(cardTable, CardClass:new(200, 250, suit, num))
+            --table.insert(cardTable, CardClass:new(200, 250, suit, num))
+            deck:addCard(CardClass:new(200, 250, suit, num))
         end
     end
-    stackTable[5]:addCard(cardTable[52])
+    --[[ stackTable[5]:addCard(cardTable[52])
     table.remove(cardTable, 52)
     stackTable[5]:addCard(cardTable[51])
-    table.remove(cardTable, 51)
+    table.remove(cardTable, 51) ]]
 end
 
 function tableContains(tbl, item)

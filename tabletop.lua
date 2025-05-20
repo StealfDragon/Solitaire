@@ -17,6 +17,12 @@ function TableTopClass:new(stackTable)
         end
         return { pos = Vector(x - width, y - height), type = type }
     end
+    aceStacks = {
+        AceStackClass:new(500, 250),
+        AceStackClass:new(575, 250),
+        AceStackClass:new(650, 250),
+        AceStackClass:new(725, 250)
+    }
     outlinePositions = {
         makeOutline(275, 250, "deck"),
         makeOutline(350, 250, "depo"),

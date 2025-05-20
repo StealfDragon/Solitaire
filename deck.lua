@@ -6,8 +6,8 @@ function DeckClass:new(x, y)
     local deck = {}
     setmetatable(deck, { __index = DeckClass })
 
-    deck.position = Vector(x, y)
     deck.size = Vector(50, 70)
+    deck.position = Vector(x, y) - deck.size
     deck.cards = {}
 
     return deck
@@ -21,12 +21,15 @@ end
 function DeckClass:draw()
     if #self.cards > 0 then
         local topCard = self.cards[#self.cards]
-        topCard:setPos(self.position.x + topCard.width, self.position.y + topCard.height)
-        love.graphics.setColor(0.3, 0.3, 0.3, 1)
+        -- Draw the top card as a red-outlined back
+        love.graphics.setColor(1, 1, 1, 1) -- white fill
         love.graphics.rectangle("fill", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
+
+        love.graphics.setColor(0.6, 0, 0, 1) -- dark red outline
+        love.graphics.rectangle("line", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
     else
-        -- empty deck placeholder
-        love.graphics.setColor(0.4, 0.4, 0.4, 0.5)
+        -- empty deck outline
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.rectangle("line", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
     end
 end
