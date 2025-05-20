@@ -54,7 +54,7 @@ function CardStackClass:removeCard(card)
         end
     end
     self.numCards = self.numCards - 1
-    if numCards <= 0 then
+    if self.numCards <= 0 then
         self.filled = false
         if self.temp then
             self.kill()
@@ -76,11 +76,45 @@ function CardStackClass:kill()
     end
 end
 
-function CardStackClass:checkMouseOver(x, y)
+function CardStackClass:checkMouseOver()
+    local mousePos = grabber.currMousePos
+    --[[ return (
+        mousePos.x > self.position.x and
+        mousePos.x < self.position.x + self.size.x and
+        mousePos.y > self.position.y + self.totalYOffset and
+        mousePos.y < self.position.y + self.totalYOffset + self.size.y
+    ) ]]
+    for i, card in ipairs(self.cards) do
+        local x = self.position.x
+        local y = self.position.y + ((i - 1) * self.yOffset)
+        if (
+            mousePos.x > x and mousePos.x < x + card.width and
+            mousePos.y > y and mousePos.y < y + card.height
+        ) then
+            return card, i
+        end
+    end
+    return nil, nil
+end
+
+function CardStackClass:tryDropCard(card)
+    if self:isValidDrop(card) then
+        self:addCard(card)
+        return true
+    end
+    return false
+end
+
+function CardStackClass:isValidDrop(card)
+    return true
+end
+
+function CardStackClass:isMouseOver()
+    local mouse = grabber.currMousePos
     return (
-        x > self.position.x and
-        x < self.position.x + self.size.x and
-        y > self.position.y + self.totalYOffset and
-        y < self.position.y + self.totalYOffset + self.size.y
+        mouse.x > self.position.x and
+        mouse.x < self.position.x + self.size.x and
+        mouse.y > self.position.y and
+        mouse.y < self.position.y + self.size.y + self.totalYOffset
     )
 end

@@ -1,28 +1,44 @@
-require "card"
+require "vector"
 
 DeckClass = {}
 
-function DeckClass:new()
+function DeckClass:new(x, y)
     local deck = {}
-    local metadata = {__index = DeckClass} -- creates the table metadata
-    setmetatable(deck, metadata) -- sets "metadata" as the metatable for the card table
-    local width = 50
-    local height = 70
+    setmetatable(deck, { __index = DeckClass })
 
-    deck.empty = true
+    deck.position = Vector(x, y)
+    deck.size = Vector(50, 70)
+    deck.cards = {}
 
-    deck.position = Vector(xPos - deck.width, yPos - deck.height)
-    deck.size = Vector(deck.width, deck.height)
+    return deck
 end
 
-function DeckClass:update()
-
+function DeckClass:addCard(card)
+    card.flipped = false -- cards in the deck are face down
+    table.insert(self.cards, card)
 end
 
 function DeckClass:draw()
-
+    if #self.cards > 0 then
+        local topCard = self.cards[#self.cards]
+        topCard:setPos(self.position.x + topCard.width, self.position.y + topCard.height)
+        love.graphics.setColor(0.3, 0.3, 0.3, 1)
+        love.graphics.rectangle("fill", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
+    else
+        -- empty deck placeholder
+        love.graphics.setColor(0.4, 0.4, 0.4, 0.5)
+        love.graphics.rectangle("line", self.position.x, self.position.y, self.size.x, self.size.y, 6, 6)
+    end
 end
 
-function DeckClass:add()
+function DeckClass:checkClick(x, y)
+    return x > self.position.x and x < self.position.x + self.size.x
+       and y > self.position.y and y < self.position.y + self.size.y
+end
 
+function DeckClass:drawCard()
+    if #self.cards == 0 then return nil end
+    local card = table.remove(self.cards)
+    card.flipped = true
+    return card
 end

@@ -31,7 +31,7 @@ end
 
 function CardClass:update()
     
-    if self.state == CARD_STATE.GRABBED and self.num == grabber.currCard then
+    if self.state == CARD_STATE.GRABBED and self == grabber.currCard then
         self.position = grabber.currMousePos - (self.size / 2)
         if not grabber.grabbed then
             self.state = CARD_STATE.MOUSE_OVER
@@ -89,7 +89,8 @@ function CardClass:checkMouseOver()
                 -- self.flipped = true
             else -- if card already flipped, then is moveable
                 self.state = CARD_STATE.GRABBED
-                grabber.currCard = self.num
+                grabber.currCard = self
+                self.originalPos = Vector(self.position.x, self.position.y)
                 return true
             end
         end

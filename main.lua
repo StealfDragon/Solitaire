@@ -60,10 +60,77 @@ function love.draw()
     for _, stack in ipairs(stackTable, stack) do
         stack:draw()
     end
+
+    if grabber.grabbedStack then
+        for i, card in ipairs(grabber.grabbedStack) do
+            local offsetY = (i - 1) * 20
+            card.position = grabber.currMousePos - (card.size / 2) + Vector(0, offsetY)
+            card:draw()
+        end
+    elseif grabber.currCard ~= 0 then
+        grabber.currCard.position = grabber.currMousePos - (grabber.currCard.size / 2)
+        grabber.currCard:draw()
+    end
 end
 
 function checkForMouseMoving()
-    if grabber.currMousePos == nil then
+    if grabber.currMousePos == nil then return end
+
+    for _, stack in ipairs(stackTable) do
+        local card, index = stack:checkMouseOver()
+        if card and grabber.currCard == 0 and grabber.grabbed then
+            local stackSize = #stack.cards
+
+            if index == stackSize then
+                -- Top card: grab single card
+                grabber.currCard = card
+                grabber.grabbedStack = nil -- 🔧 ADD THIS!
+                card.originalPos = Vector(card.position.x, card.position.y)
+                card.state = CARD_STATE.GRABBED
+
+                stack:removeCard(card)
+
+                -- Make sure card is in cardTable for drawing if needed
+                if not tableContains(cardTable, card) then
+                    table.insert(cardTable, card)
+                end
+            else
+                -- Not top card: grab full segment
+                local grabbedSegment = {}
+                grabber.originalStack = stack
+                for i = index, stackSize do
+                    table.insert(grabbedSegment, stack.cards[i])
+                end
+
+                -- Remove them from the stack
+                for i = stackSize, index, -1 do
+                    table.remove(stack.cards, i)
+                end
+
+                grabber.currCard = grabbedSegment[1]
+                grabber.grabbedStack = grabbedSegment
+
+                for _, c in ipairs(grabbedSegment) do
+                    c.originalPos = Vector(c.position.x, c.position.y)
+                    c.state = CARD_STATE.GRABBED
+                end
+            end
+
+            break
+        end
+    end
+
+    for i = #cardTable, 1, -1 do    
+        local card = cardTable[i]
+        local cardGrabbed = card:checkMouseOver()
+        if cardGrabbed then 
+            table.remove(cardTable, i)
+            table.insert(cardTable, card) -- bring to top of draw order
+            break
+        end
+    end
+
+    --[[ if grabber.currMousePos == nil then
         return
     end
 
@@ -75,7 +142,7 @@ function checkForMouseMoving()
             table.insert(cardTable, card)
             break
         end
-    end
+    end ]]
 end
 
 function instantiateCards()
@@ -96,11 +163,18 @@ function instantiateCards()
         end
         for j = 1, 13 do
             num = j
-            table.insert(cardTable, CardClass:new(275, 250, suit, num))
+            table.insert(cardTable, CardClass:new(200, 250, suit, num))
         end
     end
     stackTable[5]:addCard(cardTable[52])
     table.remove(cardTable, 52)
     stackTable[5]:addCard(cardTable[51])
     table.remove(cardTable, 51)
+end
+
+function tableContains(tbl, item)
+    for _, v in ipairs(tbl) do
+        if v == item then return true end
+    end
+    return false
 end

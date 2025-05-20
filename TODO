@@ -18,10 +18,11 @@ Todo:
   ☐ Fix all cards flipping when clicked
   ☐ Set up card stacks with flipped top cards
     ☐ Disable card placement except for on these positions
-  ☐ Set up deck and drawing 3 cards
-  ☐ Finish README
 
+  ☐ Set up deck and drawing 3 cards
+  ☐ Set up shuffling deck
   ☐ Get card sprites
   
   ☐ Make outline placement dynamic
+  ☐ Finish README
 

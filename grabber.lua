@@ -12,6 +12,7 @@ function GrabberClass:new()
 
     grabber.grabbed = false
     grabber.currCard = 0
+    grabber.currStack = 0
 
     grabber.grabPos = nil
 
@@ -46,8 +47,93 @@ end
 function GrabberClass:release()
     print("RELEASE - " .. tostring(self.grabPos))
 
+    local dropped = false
+
+    if self.grabbedStack then
+        for _, stack in ipairs(stackTable) do
+            if stack:isMouseOver() then
+                if stack:isValidDrop(self.grabbedStack[1]) then
+                    for _, card in ipairs(self.grabbedStack) do
+                        stack:addCard(card)
+                    end
+                    dropped = true
+                    break
+                end
+            end
+        end
+
+        if not dropped then
+            for _, card in ipairs(self.grabbedStack) do
+                card:setPos(card.originalPos.x + card.width, card.originalPos.y + card.height)
+                card.state = CARD_STATE.IDLE
+                if self.originalStack then
+                    self.originalStack:addCard(card)
+                end
+            end
+        end
+
+    elseif self.currCard ~= 0 then
+        for _, stack in ipairs(stackTable) do
+            if stack:isMouseOver() then
+                if stack:tryDropCard(self.currCard) then
+                    -- Remove from floating cards
+                    for i, c in ipairs(cardTable) do
+                        if c == self.currCard then
+                            table.remove(cardTable, i)
+                            break
+                        end
+                    end
+                    dropped = true
+                    break
+                end
+            end
+        end
+
+        if not dropped then
+            self.currCard:setPos(
+                self.currCard.originalPos.x + self.currCard.width,
+                self.currCard.originalPos.y + self.currCard.height
+            )
+            self.currCard.state = CARD_STATE.IDLE
+        end
+    end
+
     self.grabbed = false
     isMoving = false
-
     self.grabPos = nil
+    self.currCard = 0
+    self.grabbedStack = nil
+    self.originalStack = nil
+
+    --[[ if self.currCard ~= 0 then
+        local grabbedCard = self.currCard
+
+        if grabbedCard then
+            for _, stack in ipairs(stackTable) do
+                if stack:checkMouseOver() then
+                    local success = stack:tryDropCard(grabbedCard)
+                    if success then
+                        for i, c in ipairs(cardTable) do
+                            if c == grabbedCard then
+                                table.remove(cardTable, i)
+                                break
+                            end
+                        end
+                        dropped = true
+                        break
+                    end
+                end
+            end
+            if not dropped and grabbedCard.originalPos then
+            grabbedCard:setPos(grabbedCard.originalPos.x + grabbedCard.width, grabbedCard.originalPos.y + grabbedCard.height)
+            grabbedCard.state = CARD_STATE.IDLE
+            end
+        end
+    end
+
+    -- Reset grab state
+    self.grabbed = false
+    isMoving = false
+    self.grabPos = nil
+    self.currCard = 0 ]]
 end
