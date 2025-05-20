@@ -1,17 +1,21 @@
 List of the programming patterns used (with a brief description of how you used them and why):
-Update -
-Flyweight -
-State -
+    Update - Every time I call update on an object (of which I have many) I use this pattern
+    State - I believe that because I keep track of what's being held (card vs cardstack) that constitutes state, because the player can't be in a state of holding a card and a cardstack at the same time.
+    Component - If I'm not mistaken, grabber is an example of this pattern.
+    Game Loop - I'm also pretty sure that by using love2d we're using this pattern.
 
 People who gave feedback:
-There's only one person on the list because during the second discussion section where we were told to group up and review 
-code, I believe we were also told we could work on our projects instead, and since I was behind, I elected to do that.
-Aayush Bandopadhyay:
-We both reviewed each others' code, and honestly, we both thought we did pretty good jobs. Mine was far from complete, so he didn't have a lot to look over, but he appreciated the ways I had laid out my code, and the fact that I had used tabletop.lua to organize some of the viewable objects on screen. His only suggestion was for me to make the positioning of the stacks dynamic -- to do with the size of the window.
+    There's only one person on the list because during the second discussion section where we were told to group up and review 
+    code, I believe we were also told we could work on our projects instead, and since I was behind, I elected to do that.
+    Aayush Bandopadhyay:
+    We both reviewed each others' code, and honestly, we both thought we did pretty good jobs. Mine was far from complete, so he didn't have a lot to look over, but he appreciated the ways I had laid out my code, and the fact that I had used tabletop.lua to organize some of the viewable objects on screen. His only suggestion was for me to make the positioning of the stacks dynamic -- to do with the size of the window.
 
 A postmortem on where you assess the key pain points of your Solitaire project (the missing features and less than ideal code), how you planned on addressing them, and how successful those refactoring efforts were:
-
+    - No SFX
+    - No Mute button
+    Less than ideal code:
+        - I feel like there's too much in main. I was hoping I could use grabber for everything, but for pulling from the deck, love.mousepressed seemed easiest. Also, my checkformousemoving function is incredibly long. If I remade this project, I'd go back and make stacks more dynamic, so that a single card can act as a stack without any issue, and I'd also make my card size global, because I'm pretty sure I restate it ~6 times. As for the refactoring I had time for, and noticed before the end of my project, it was just Aayush's suggestion, which wasn't too hard to change.
 
 
 A list of all assets used in this project:
-Sprites: insert link here
+    Sprites: insert link here
