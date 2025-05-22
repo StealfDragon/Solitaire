@@ -128,6 +128,22 @@ function CardStackClass:isValidDrop(card)
     --return true
 end
 
+function CardStackClass:isValidStackDrop(cards)
+    if #cards == 0 then return false end
+
+    local firstCard = cards[1]
+    local top = self.cards[#self.cards]
+
+    if not top then
+        return firstCard.num == 13 -- Only Kings (or stacks starting with King) can go on empty
+    end
+
+    local color1 = (firstCard.suit == "heart" or firstCard.suit == "diamond") and "red" or "black"
+    local color2 = (top.suit == "heart" or top.suit == "diamond") and "red" or "black"
+
+    return color1 ~= color2 and firstCard.num == top.num - 1
+end
+
 function CardStackClass:isMouseOver()
     local mouse = grabber.currMousePos
     return (

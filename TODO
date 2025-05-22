@@ -16,13 +16,14 @@ Todo:
     ☐ Replace cardstack position to top of table when picked up
 
   ✔ Set up deck and drawing 3 cards @done(25-05-21 18:26)
-  ☐ Set up shuffling deck
+  ✔ Set up shuffling deck @done(25-05-22 01:25)
   ☐ Get card sprites
 
-  ☐ Set up card stacks with flipped top cards
+  ✔ Set up card stacks with flipped top cards @done(25-05-22 01:25)
     ✔ Disable card placement except for on these positions @done(25-05-20 03:56)
 
   ☐ Implement actual solitaire game logic
+    ☐ Last thing - only kings can be placed on empty positions.
   ☐ Reset button
   
   ☐ Make outline placement dynamic

@@ -226,3 +226,15 @@ function tableContains(tbl, item)
     end
     return false
 end
+
+function checkWinCondition()
+    local total = 0
+    for _, stack in ipairs(aceStacks) do
+        total = total + #stack.cards
+    end
+
+    if total == 52 then
+        print("🎉 You win!")
+        gameWon = true
+    end
+end

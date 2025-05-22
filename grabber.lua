@@ -53,7 +53,7 @@ function GrabberClass:release()
     if self.grabbedStack then
         for _, stack in ipairs(stackTable) do
             if stack:isMouseOver() then
-                if stack:isValidDrop(self.grabbedStack[1]) then
+                if stack:isValidStackDrop(self.grabbedStack) then
                     for _, card in ipairs(self.grabbedStack) do
                         stack:addCard(card)
                     end
@@ -107,8 +107,14 @@ function GrabberClass:release()
                         end
                     end
 
-                    self:flipTopIfNeeded()
+                    for i, c in ipairs(drawPile) do
+                        if c == self.currCard then
+                            table.remove(drawPile, i)
+                            break
+                        end
+                    end
 
+                    self:flipTopIfNeeded()
                     dropped = true
                     break
                 end
@@ -170,38 +176,6 @@ function GrabberClass:release()
     self.currCard = 0
     self.grabbedStack = nil
     self.originalStack = nil
-
-    --[[ if self.currCard ~= 0 then
-        local grabbedCard = self.currCard
-
-        if grabbedCard then
-            for _, stack in ipairs(stackTable) do
-                if stack:checkMouseOver() then
-                    local success = stack:tryDropCard(grabbedCard)
-                    if success then
-                        for i, c in ipairs(cardTable) do
-                            if c == grabbedCard then
-                                table.remove(cardTable, i)
-                                break
-                            end
-                        end
-                        dropped = true
-                        break
-                    end
-                end
-            end
-            if not dropped and grabbedCard.originalPos then
-            grabbedCard:setPos(grabbedCard.originalPos.x + grabbedCard.width, grabbedCard.originalPos.y + grabbedCard.height)
-            grabbedCard.state = CARD_STATE.IDLE
-            end
-        end
-    end
-
-    -- Reset grab state
-    self.grabbed = false
-    isMoving = false
-    self.grabPos = nil
-    self.currCard = 0 ]]
 end
 
 function GrabberClass:flipTopIfNeeded()
