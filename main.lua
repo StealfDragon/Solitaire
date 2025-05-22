@@ -11,6 +11,7 @@ require "acestack"
 local cardFlippedThisClick = false
 
 function love.load()
+    math.randomseed(os.time())
     love.window.setMode(960, 640) -- Creates window and defines size
     love.window.setTitle("Cassian Jones's Solitaire")
     love.graphics.setBackgroundColor(0.2, 0.60, 0.2, 1) -- Sets background color of the window
@@ -136,11 +137,12 @@ function checkForMouseMoving()
             if index == stackSize then
                 -- Top card: grab single card
                 grabber.currCard = card
-                grabber.grabbedStack = nil -- 🔧 ADD THIS!
+                grabber.grabbedStack = nil
+                grabber.originalStack = stack
                 card.originalPos = Vector(card.position.x, card.position.y)
                 card.state = CARD_STATE.GRABBED
 
-                stack:removeCard(card)
+                --stack:removeCard(card)
 
                 -- Make sure card is in cardTable for drawing if needed
                 if not tableContains(cardTable, card) then
@@ -156,7 +158,7 @@ function checkForMouseMoving()
 
                 -- Remove them from the stack
                 for i = stackSize, index, -1 do
-                    table.remove(stack.cards, i)
+                    stack:removeCard(stack.cards[i])
                 end
 
                 grabber.currCard = grabbedSegment[1]
@@ -188,31 +190,36 @@ function checkForMouseMoving()
 end
 
 function instantiateCards()
-    suit = nil
-    num = nil
-    for i = 1, 4 do
-        if i == 1 then
-            suit = "club"
-        end
-        if i == 2 then
-            suit = "heart"
-        end
-        if i == 3 then
-            suit = "spade"
-        end
-        if i == 4 then
-            suit = "diamond"
-        end
-        for j = 1, 13 do
-            num = j
-            --table.insert(cardTable, CardClass:new(200, 250, suit, num))
-            deck:addCard(CardClass:new(200, 250, suit, num))
+    local suits = {"club", "heart", "spade", "diamond"}
+    local cards = {}
+
+    -- Create 52 cards
+    for _, suit in ipairs(suits) do
+        for num = 1, 13 do
+            table.insert(cards, CardClass:new(200, 250, suit, num))
         end
     end
-    --[[ stackTable[5]:addCard(cardTable[52])
-    table.remove(cardTable, 52)
-    stackTable[5]:addCard(cardTable[51])
-    table.remove(cardTable, 51) ]]
+
+    -- Shuffle
+    for i = #cards, 2, -1 do
+        local j = math.random(i)
+        cards[i], cards[j] = cards[j], cards[i]
+    end
+
+    local cardIndex = 1
+    for i = 1, 7 do
+        for j = 1, i do
+            local card = cards[cardIndex]
+            cardIndex = cardIndex + 1
+            stackTable[i]:addCard(card)
+            card.flipped = j == i -- Only the top card is face-up
+        end
+    end
+
+    -- Remaining go into deck
+    for i = cardIndex, #cards do
+        deck:addCard(cards[i])
+    end
 end
 
 function tableContains(tbl, item)

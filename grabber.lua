@@ -48,6 +48,7 @@ function GrabberClass:release()
     print("RELEASE - " .. tostring(self.grabPos))
 
     local dropped = false
+    self.flipPending = false
 
     if self.grabbedStack then
         for _, stack in ipairs(stackTable) do
@@ -59,6 +60,13 @@ function GrabberClass:release()
                     dropped = true
                     break
                 end
+            end
+        end
+
+        if dropped and self.originalStack then
+            local top = self.originalStack.cards[#self.originalStack.cards]
+            if top and not top.flipped then
+                top.flipped = true
             end
         end
 
@@ -75,6 +83,20 @@ function GrabberClass:release()
     elseif self.currCard ~= 0 then
         for _, stack in ipairs(stackTable) do
             if stack:isMouseOver() then
+                if self.originalStack then
+                    local wasTopCard = self.originalStack:removeCard(self.currCard)
+                    if wasTopCard then
+                        self.flipPending = true
+                    end
+                end
+
+                if self.originalStack and self.currCard ~= 0 then
+                    local wasTop = self.originalStack:removeCard(self.currCard)
+                    if wasTop then
+                        self.flipPending = true
+                    end
+                end
+
                 if stack:tryDropCard(self.currCard) then
                     -- Remove from floating cards
                     for i, c in ipairs(cardTable) do
@@ -83,6 +105,9 @@ function GrabberClass:release()
                             break
                         end
                     end
+
+                    self:flipTopIfNeeded()
+
                     dropped = true
                     break
                 end
@@ -95,6 +120,8 @@ function GrabberClass:release()
                     if aceStack:isValidDrop(self.currCard) then
                         aceStack:addCard(self.currCard)
                         dropped = true
+
+                        self:flipTopIfNeeded()
 
                         for i = #cardTable, 1, -1 do
                             if cardTable[i] == self.currCard then
@@ -156,4 +183,13 @@ function GrabberClass:release()
     isMoving = false
     self.grabPos = nil
     self.currCard = 0 ]]
+end
+
+function GrabberClass:flipTopIfNeeded()
+    if self.flipPending and self.originalStack then
+        local top = self.originalStack.cards[#self.originalStack.cards]
+        if top and not top.flipped then
+            top.flipped = true
+        end
+    end
 end

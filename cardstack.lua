@@ -31,10 +31,13 @@ end
 
 function CardStackClass:draw()
     for i, card in ipairs(self.cards) do
-        card.position.x = self.position.x
-        self.totalYOffset = (i - 1) * self.yOffset
-        card.position.y = self.position.y + self.totalYOffset
-        card:draw()
+    -- Don't draw the card if it's currently being grabbed
+        if card ~= grabber.currCard and (not grabber.grabbedStack or not tableContains(grabber.grabbedStack, card)) then
+            card.position.x = self.position.x
+            self.totalYOffset = (i - 1) * self.yOffset
+            card.position.y = self.position.y + self.totalYOffset
+            card:draw()
+        end
     end
 end
 
@@ -46,6 +49,8 @@ function CardStackClass:addCard(card)
 end
 
 function CardStackClass:removeCard(card)
+    local wasTopCard = (self.cards[#self.cards] == card)
+
     for i, c in ipairs(self.cards) do
         if c == card then
             table.remove(self.cards, i)
@@ -53,14 +58,17 @@ function CardStackClass:removeCard(card)
             break
         end
     end
+
     self.numCards = self.numCards - 1
+
     if self.numCards <= 0 then
         self.filled = false
         if self.temp then
-            self.kill()
+            self:kill()
         end
     end
-    --self.position.y = self.position.y
+
+    return wasTopCard
 end
 
 function CardStackClass:kill()
@@ -106,6 +114,17 @@ function CardStackClass:tryDropCard(card)
 end
 
 function CardStackClass:isValidDrop(card)
+    --[[ local top = self.cards[#self.cards]
+
+    if not top then
+        return card.num == 13 -- Only Kings can go in empty tableau slots
+    end
+
+    -- Must be opposite color and one rank lower
+    local color1 = (card.suit == "heart" or card.suit == "diamond") and "red" or "black"
+    local color2 = (top.suit == "heart" or top.suit == "diamond") and "red" or "black"
+
+    return color1 ~= color2 and card.num == top.num - 1 ]]
     return true
 end
 
@@ -117,4 +136,11 @@ function CardStackClass:isMouseOver()
         mouse.y > self.position.y and
         mouse.y < self.position.y + self.size.y + self.totalYOffset
     )
+end
+
+function tableContains(tbl, item)
+    for _, v in ipairs(tbl) do
+        if v == item then return true end
+    end
+    return false
 end
