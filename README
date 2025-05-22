@@ -15,6 +15,7 @@ A postmortem on where you assess the key pain points of your Solitaire project (
     Less than ideal code:
         - I feel like there's too much in main. I was hoping I could use grabber for everything, but for pulling from the deck, love.mousepressed seemed easiest. Also, my checkformousemoving function is incredibly long. If I remade this project, I'd go back and make stacks more dynamic, so that a single card can act as a stack without any issue, and I'd also make my card size global, because I'm pretty sure I restate it ~6 times. As for the refactoring I had time for, and noticed before the end of my project, it was just Aayush's suggestion, which wasn't too hard to change.
 
+Final note: For now, at least, I've elected to leave in the letter/numbers combo on the cards to show suit and number they are. Finding the right pngs was stressing me out, and it's not technically part of the grading for this assignment, so I'm hoping I don't get points taken off for it. I mainly did it because I kind of like the vibe it gives to this project. It's pretty simple, and yet it's a part of the project I can call my own. However, if I go back and change it, I will be sure to make note of it, and insert the link to the source where I got the cards in the space allotted for it below. Thanks.
 
 A list of all assets used in this project:
     Sprites: insert link here
