@@ -45,3 +45,7 @@ function DeckClass:drawCard()
     card.flipped = true
     return card
 end
+
+function DeckClass:addCardToBottom(card)
+    table.insert(self.cards, 1, card) -- add to front of the table
+end

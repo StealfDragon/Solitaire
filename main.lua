@@ -22,6 +22,7 @@ function love.load()
     stackTable = {}
     tableTop = TableTopClass:new(stackTable)
     deck = DeckClass:new(275, 250)
+    drawPile = {}
     aceStacks = {}
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
@@ -79,12 +80,44 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button)
-    if button == 1 then
-        if deck:checkClick(x, y) then
-            local drawnCard = deck:drawCard()
-            if drawnCard then
-                drawnCard:setPos(350, 250) -- where drawn cards show
-                table.insert(cardTable, drawnCard)
+    if button == 1 and deck:checkClick(x, y) then
+        if #deck.cards == 0 then
+            -- ♻️ Recycle all cards in drawPile back to deck
+            for i = 1, #drawPile do
+                local card = drawPile[i]
+
+                -- Only remove from cardTable if it's still floating (not played)
+                for j = #cardTable, 1, -1 do
+                    if cardTable[j] == card then
+                        table.remove(cardTable, j)
+                        break
+                    end
+                end
+
+                card.flipped = false
+                card:setPos(deck.position.x + card.width, deck.position.y + card.height)
+                deck:addCardToBottom(card) -- preserves original draw order
+            end
+
+            drawPile = {}
+
+        else
+            -- 👇 NEW: Push previous cards behind the new ones (just hide them)
+            for _, card in ipairs(drawPile) do
+                -- Push them back so they are "under" the new cards (invisible)
+                card:setPos(-100, -100)  -- off-screen or under deck
+            end
+
+            -- Draw up to 3 new cards
+            for i = 1, 3 do
+                local card = deck:drawCard()
+                if not card then break end
+
+                card.flipped = true
+                card:setPos(350 + ((i - 1) * 20), 250)
+
+                table.insert(drawPile, card)
+                table.insert(cardTable, card)
             end
         end
     end
@@ -137,13 +170,17 @@ function checkForMouseMoving()
         end
     end
 
-    for i = #cardTable, 1, -1 do    
-        local card = cardTable[i]
-        local cardGrabbed = card:checkMouseOver()
-        if cardGrabbed then 
-            table.remove(cardTable, i)
-            table.insert(cardTable, card) -- bring to top of draw order
-            break
+    if #drawPile > 0 then
+        local topDrawn = drawPile[#drawPile]
+        if topDrawn:checkMouseOver() then
+            -- Move to top of draw order
+            for i = #cardTable, 1, -1 do
+                if cardTable[i] == topDrawn then
+                    table.remove(cardTable, i)
+                    table.insert(cardTable, topDrawn)
+                    break
+                end
+            end
         end
     end
 

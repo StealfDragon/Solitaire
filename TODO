@@ -8,20 +8,22 @@ Todo:
     ☐ On flip, display number and make moveable
   ✔ Assign valid positions for cards to be placed on @done(25-05-15 17:00)
 
-  ☐ Fix cardstack being drawn over picked up cards
+  ✔ Fix cardstack being drawn over picked up cards @done(25-05-20 03:55)
     ☐ Axe cardstack -- which will involve:
       ☐ On pickup, remove from cardstack and move to highest layer
         ☐ Add to remnant of cardtable, which is really just there to be on a guaranteed layer above everything else
-  ☐ Make able to move cardstacks
+  ✔ Make able to move cardstacks @done(25-05-20 03:55)
     ☐ Replace cardstack position to top of table when picked up
-
-  ☐ Fix all cards flipping when clicked
-  ☐ Set up card stacks with flipped top cards
-    ☐ Disable card placement except for on these positions
 
   ☐ Set up deck and drawing 3 cards
   ☐ Set up shuffling deck
   ☐ Get card sprites
+
+  ☐ Set up card stacks with flipped top cards
+    ✔ Disable card placement except for on these positions @done(25-05-20 03:56)
+
+  ☐ Implement actual solitaire game logic
+  ☐ Reset button
   
   ☐ Make outline placement dynamic
   ☐ Finish README
