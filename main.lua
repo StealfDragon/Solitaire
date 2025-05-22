@@ -142,8 +142,6 @@ function checkForMouseMoving()
                 card.originalPos = Vector(card.position.x, card.position.y)
                 card.state = CARD_STATE.GRABBED
 
-                --stack:removeCard(card)
-
                 -- Make sure card is in cardTable for drawing if needed
                 if not tableContains(cardTable, card) then
                     table.insert(cardTable, card)

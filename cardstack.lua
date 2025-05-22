@@ -114,7 +114,7 @@ function CardStackClass:tryDropCard(card)
 end
 
 function CardStackClass:isValidDrop(card)
-    --[[ local top = self.cards[#self.cards]
+    local top = self.cards[#self.cards]
 
     if not top then
         return card.num == 13 -- Only Kings can go in empty tableau slots
@@ -124,8 +124,8 @@ function CardStackClass:isValidDrop(card)
     local color1 = (card.suit == "heart" or card.suit == "diamond") and "red" or "black"
     local color2 = (top.suit == "heart" or top.suit == "diamond") and "red" or "black"
 
-    return color1 ~= color2 and card.num == top.num - 1 ]]
-    return true
+    return color1 ~= color2 and card.num == top.num - 1
+    --return true
 end
 
 function CardStackClass:isMouseOver()

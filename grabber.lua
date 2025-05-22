@@ -75,6 +75,7 @@ function GrabberClass:release()
                 card:setPos(card.originalPos.x + card.width, card.originalPos.y + card.height)
                 card.state = CARD_STATE.IDLE
                 if self.originalStack then
+                    self.originalStack:removeCard(card)
                     self.originalStack:addCard(card)
                 end
             end
@@ -90,12 +91,12 @@ function GrabberClass:release()
                     end
                 end
 
-                if self.originalStack and self.currCard ~= 0 then
+                --[[ if self.originalStack and self.currCard ~= 0 then
                     local wasTop = self.originalStack:removeCard(self.currCard)
                     if wasTop then
                         self.flipPending = true
                     end
-                end
+                end ]]
 
                 if stack:tryDropCard(self.currCard) then
                     -- Remove from floating cards
@@ -117,6 +118,12 @@ function GrabberClass:release()
         if not dropped then
             for _, aceStack in ipairs(aceStacks) do
                 if aceStack:checkMouseOver() then
+                     if self.originalStack then
+                        local wasTopCard = self.originalStack:removeCard(self.currCard)
+                        if wasTopCard then
+                            self.flipPending = true
+                        end
+                    end
                     if aceStack:isValidDrop(self.currCard) then
                         aceStack:addCard(self.currCard)
                         dropped = true
@@ -142,6 +149,18 @@ function GrabberClass:release()
                 self.currCard.originalPos.y + self.currCard.height
             )
             self.currCard.state = CARD_STATE.IDLE
+            for i = #cardTable, 1, -1 do
+                if cardTable[i] == self.currCard then
+                    table.remove(cardTable, i)
+                    break
+                end
+            end
+            table.insert(cardTable, self.currCard)
+
+            if self.originalStack then
+                self.originalStack:removeCard(self.currCard)
+                self.originalStack:addCard(self.currCard)
+            end
         end
     end
 
