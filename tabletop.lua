@@ -3,7 +3,7 @@ require "cardstack"
 
 TableTopClass = {}
 
-function TableTopClass:new(stackTable, aceStacks)
+function TableTopClass:new(stackTable, aceStacks, drawPile, windowW, windowH)
     local tableTop = {}
     local metadata = {__index = TableTopClass} -- creates the table metadata
     setmetatable(tableTop, metadata) -- sets "metadata" as the metatable for the card table
@@ -16,25 +16,27 @@ function TableTopClass:new(stackTable, aceStacks)
             table.insert(stackTable, CardStackClass:new(x, y, false))
         elseif type == "ace" then
             table.insert(aceStacks, AceStackClass:new(x, y)) -- add ace stack here
+        elseif type == "deck" then
+            deck = DeckClass:new(x, y)
         end
         return { pos = Vector(x - width, y - height), type = type }
     end
     outlinePositions = {
-        makeOutline(275, 250, "deck"),
-        makeOutline(350, 250, "depo"),
+        makeOutline(windowW - 225, windowH - 50, "deck"),
+        makeOutline(windowW - 150, windowH - 50, "depo"),
         
-        makeOutline(500, 250, "ace"),
-        makeOutline(575, 250, "ace"),
-        makeOutline(650, 250, "ace"),
-        makeOutline(725, 250, "ace"),
+        makeOutline(windowW, windowH - 50, "ace"),
+        makeOutline(windowW + 75, windowH - 50, "ace"),
+        makeOutline(windowW + 150, windowH - 50, "ace"),
+        makeOutline(windowW + 225, windowH - 50, "ace"),
 
-        makeOutline(275, 350, "tableau"),
-        makeOutline(350, 350, "tableau"),
-        makeOutline(425, 350, "tableau"),
-        makeOutline(500, 350, "tableau"),
-        makeOutline(575, 350, "tableau"),
-        makeOutline(650, 350, "tableau"),
-        makeOutline(725, 350, "tableau"),
+        makeOutline(windowW - 225, windowH + 50, "tableau"),
+        makeOutline(windowW - 150, windowH + 50, "tableau"),
+        makeOutline(windowW - 75, windowH + 50, "tableau"),
+        makeOutline(windowW, windowH + 50, "tableau"),
+        makeOutline(windowW + 75, windowH + 50, "tableau"),
+        makeOutline(windowW + 150, windowH + 50, "tableau"),
+        makeOutline(windowW + 225, windowH + 50, "tableau"),
     }
 
     tableTop.outlines = {}

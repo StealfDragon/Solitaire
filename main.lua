@@ -20,11 +20,14 @@ function love.load()
     width = 50
     height = 70
 
+    screenWidth = love.graphics.getWidth()
+    screenHeight = love.graphics.getHeight()
+
     grabber = GrabberClass:new() -- makes new grabber instance
     stackTable = {}
     aceStacks = {}
-    tableTop = TableTopClass:new(stackTable, aceStacks)
-    deck = DeckClass:new(275, 250)
+    deck = nil
+    tableTop = TableTopClass:new(stackTable, aceStacks, deck, screenWidth / 2, screenHeight / 2)
     drawPile = {}
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
@@ -128,7 +131,7 @@ function love.mousepressed(x, y, button)
                 if not card then break end
 
                 card.flipped = true
-                card:setPos(350 + ((i - 1) * 20), 250)
+                card:setPos((screenWidth / 2) - 150 + ((i - 1) * 20), (screenHeight / 2) - 50)
 
                 table.insert(drawPile, card)
                 table.insert(cardTable, card)
