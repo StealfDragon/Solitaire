@@ -23,8 +23,8 @@ Todo:
     ✔ Disable card placement except for on these positions @done(25-05-20 03:56)
 
   ☐ Implement actual solitaire game logic
-    ☐ Last thing - only kings can be placed on empty positions.
-  ☐ Reset button
+    ✔ Last thing - only kings can be placed on empty positions. @done(25-05-22 01:43)
+  ✔ Reset button @done(25-05-22 01:43)
   
   ☐ Make outline placement dynamic
   ☐ Finish README

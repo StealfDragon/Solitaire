@@ -9,6 +9,7 @@ require "tabletop"
 require "deck"
 require "acestack"
 local cardFlippedThisClick = false
+gameWon = false
 
 function love.load()
     math.randomseed(os.time())
@@ -45,7 +46,9 @@ function love.update()
         card:update()
     end
 
-    -- grabber.currCard = grabber.currCard + 1 -- no clue
+    if not gameWon then
+        checkWinCondition()
+    end
 end
 
 function love.draw()
@@ -55,10 +58,12 @@ function love.draw()
     local regFont = love.graphics.newFont(12)
     love.graphics.setFont(regFont)
     love.graphics.setColor(1, 1, 1, 1) -- sets color to white so we can put words in window
-    love.graphics.print("Mouse:" .. tostring(grabber.currMousePos.x) .. ", " .. tostring(grabber.currMousePos.y))
+    --[[ love.graphics.print("Mouse:" .. tostring(grabber.currMousePos.x) .. ", " .. tostring(grabber.currMousePos.y))
     -- ^ displays the mouse x and y coordinates
     love.graphics.print("Current Card:" .. tostring(grabber.currCard), 110, 0)
-    -- ^ prints number of the card which is being grabbed
+    -- ^ prints number of the card which is being grabbed ]]
+
+    love.graphics.print("Press 'r' to restart")
     
     for _, card in ipairs(cardTable, card) do -- draws every card in the cardTable table
         card:draw()
@@ -81,6 +86,12 @@ function love.draw()
     elseif grabber.currCard ~= 0 then
         grabber.currCard.position = grabber.currMousePos - (grabber.currCard.size / 2)
         grabber.currCard:draw()
+    end
+
+    if gameWon then
+        love.graphics.setColor(1, 1, 0, 1)
+        love.graphics.setFont(love.graphics.newFont(32))
+        love.graphics.printf("You Win!", 0, 300, love.graphics.getWidth(), "center")
     end
 end
 
@@ -123,6 +134,12 @@ function love.mousepressed(x, y, button)
                 table.insert(cardTable, card)
             end
         end
+    end
+end
+
+function love.keypressed(key)
+    if key == "r" --[[and gameWon]] then
+        love.event.quit("restart") -- restarts the game
     end
 end
 
