@@ -15,7 +15,7 @@ Todo:
   ✔ Make able to move cardstacks @done(25-05-20 03:55)
     ☐ Replace cardstack position to top of table when picked up
 
-  ☐ Set up deck and drawing 3 cards
+  ✔ Set up deck and drawing 3 cards @done(25-05-21 18:26)
   ☐ Set up shuffling deck
   ☐ Get card sprites
 

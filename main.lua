@@ -82,7 +82,6 @@ end
 function love.mousepressed(x, y, button)
     if button == 1 and deck:checkClick(x, y) then
         if #deck.cards == 0 then
-            -- ♻️ Recycle all cards in drawPile back to deck
             for i = 1, #drawPile do
                 local card = drawPile[i]
 
@@ -102,7 +101,6 @@ function love.mousepressed(x, y, button)
             drawPile = {}
 
         else
-            -- 👇 NEW: Push previous cards behind the new ones (just hide them)
             for _, card in ipairs(drawPile) do
                 -- Push them back so they are "under" the new cards (invisible)
                 card:setPos(-100, -100)  -- off-screen or under deck

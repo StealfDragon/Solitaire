@@ -14,6 +14,8 @@ function TableTopClass:new(stackTable)
     local function makeOutline(x, y, type)
         if type == "tableau" then
             table.insert(stackTable, CardStackClass:new(x, y, false))
+        elseif type == "ace" then
+            table.insert(aceStacks, AceStackClass:new(x, y)) -- add ace stack here
         end
         return { pos = Vector(x - width, y - height), type = type }
     end
