@@ -6,8 +6,8 @@ function AceStackClass:new(x, y)
     local stack = {}
     setmetatable(stack, { __index = AceStackClass })
 
-    stack.position = Vector(x, y)
     stack.size = Vector(50, 70)
+    stack.position = Vector(x, y) - stack.size
     stack.cards = {}
 
     return stack
@@ -42,7 +42,7 @@ function AceStackClass:draw()
 
     if #self.cards > 0 then
         local top = self.cards[#self.cards]
-        top:setPos(self.position.x + top.width, self.position.y + top.height)
+        top:setPos(self.position.x + self.size.x, self.position.y + self.size.y)
         top:draw()
     end
 end

@@ -20,10 +20,10 @@ function love.load()
 
     grabber = GrabberClass:new() -- makes new grabber instance
     stackTable = {}
-    tableTop = TableTopClass:new(stackTable)
+    aceStacks = {}
+    tableTop = TableTopClass:new(stackTable, aceStacks)
     deck = DeckClass:new(275, 250)
     drawPile = {}
-    aceStacks = {}
     cardTable = {} -- makes a table in which to store cards -- CHANGE LATER
 
     -- inserts cards into table
@@ -64,6 +64,10 @@ function love.draw()
     end
 
     for _, stack in ipairs(stackTable, stack) do
+        stack:draw()
+    end
+
+    for _, stack in ipairs(aceStacks) do
         stack:draw()
     end
 
@@ -181,20 +185,6 @@ function checkForMouseMoving()
             end
         end
     end
-
-    --[[ if grabber.currMousePos == nil then
-        return
-    end
-
-    for i = #cardTable, 1, -1 do    
-        local card = cardTable[i]
-        local cardGrabbed = card:checkMouseOver(grabber)
-        if cardGrabbed then 
-            table.remove(cardTable, i)
-            table.insert(cardTable, card)
-            break
-        end
-    end ]]
 end
 
 function instantiateCards()

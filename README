@@ -8,7 +8,7 @@ People who gave feedback:
     There's only one person on the list because during the second discussion section where we were told to group up and review 
     code, I believe we were also told we could work on our projects instead, and since I was behind, I elected to do that.
     Aayush Bandopadhyay:
-    We both reviewed each others' code, and honestly, we both thought we did pretty good jobs. Mine was far from complete, so he didn't have a lot to look over, but he appreciated the ways I had laid out my code, and the fact that I had used tabletop.lua to organize some of the viewable objects on screen. His only suggestion was for me to make the positioning of the stacks dynamic -- to do with the size of the window.
+    We both reviewed each others' code, and honestly, we both thought we did pretty good jobs. Mine was far from complete, so he didn't have a lot to look over, but he appreciated the ways I had laid out my code, and the fact that I had used tabletop.lua to organize some of the viewable objects on screen. His only suggestion was for me to make the positioning of the stacks dynamic -- to do with the size of the window. At the time, I also realized I needed more comments, so I've tried to keep up with that.
 
 A postmortem on where you assess the key pain points of your Solitaire project (the missing features and less than ideal code), how you planned on addressing them, and how successful those refactoring efforts were:
     - No SFX

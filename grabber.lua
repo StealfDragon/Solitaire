@@ -90,6 +90,26 @@ function GrabberClass:release()
         end
 
         if not dropped then
+            for _, aceStack in ipairs(aceStacks) do
+                if aceStack:checkMouseOver() then
+                    if aceStack:isValidDrop(self.currCard) then
+                        aceStack:addCard(self.currCard)
+                        dropped = true
+
+                        for i = #cardTable, 1, -1 do
+                            if cardTable[i] == self.currCard then
+                                table.remove(cardTable, i)
+                                break
+                            end
+                        end
+
+                        break
+                    end
+                end
+            end
+        end
+
+        if not dropped then
             self.currCard:setPos(
                 self.currCard.originalPos.x + self.currCard.width,
                 self.currCard.originalPos.y + self.currCard.height
